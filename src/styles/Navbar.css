@@ -1,0 +1,38 @@
+nav{
+    width: 100%;
+    color: white;
+    padding: 1rem;
+    background-color: #8a2be2;
+}
+
+h1{
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+ul{
+    list-style: none;
+    align-items: center;
+    display: flex;
+}
+
+li{
+    margin: 0 1em;
+    font-size: 1.5em;
+}
+
+li > button{
+    padding: .3em 1em;
+    border-radius: .3em;
+    font-size: .7em;
+    box-shadow: -8px -8px 20px 0px #8a2be2, -6px -6px 6px 0px #8a2be2,
+    8px 8px 20px #0001, 5px 5px 6px 0px #0001;
+    background-color: #8a2be2;
+}
+li>button:hover{
+    cursor: pointer;
+    transition: 200ms linear all;
+    box-shadow: inset -8px -8px 20px #8a2be2, inset -5px -5px 6px #8a2be2,
+    inset 8px 8px 20px #0003, inset 5px 5px 6px #0001;
+}
+

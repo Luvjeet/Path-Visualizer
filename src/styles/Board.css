@@ -1,0 +1,93 @@
+.board{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border: 1px solid #afd8f8;
+}
+
+.wall {
+    width: 25px;
+    height: 25px;
+    background-color: #34495e;
+    border: 1px solid #afd8f8;
+}
+
+.startNode{
+    width: 25px;
+    height: 25px;
+    background-color: green;
+    border: 1px solid #afd8f8;
+}
+
+.endNode{
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    border: 1px solid #afd8f8;
+}
+
+.visited{
+    width: 25px;
+    height: 25px;
+    background-color: #40CEE3;
+    border: 1px solid #afd8f8;
+}
+
+.path{
+    width: 25px;
+    height: 25px;
+    background-color: #FFFE6A;
+    border: 1px solid #afd8f8;
+}
+
+@media (width<=1240px){
+    .cell{
+        width: 20px;
+        height: 20px;
+    }
+    .startNode{
+        width: 20px;
+        height: 20px;
+    }
+    .endNode{
+        width: 20px;
+        height: 20px;
+    }
+    .wall{
+        width: 20px;
+        height: 20px;
+    }
+    .visited{
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (width<=900px){
+    .cell{
+        width: 15px;
+        height: 15px;
+    }
+    .startNode{
+        width: 15px;
+        height: 15px;
+    }
+    .endNode{
+        width: 15px;
+        height: 15px;
+    }
+    .wall{
+        width: 15px;
+        height: 15px;
+    }
+    .visited{
+        width: 15px;
+        height: 15px;
+    }
+}
