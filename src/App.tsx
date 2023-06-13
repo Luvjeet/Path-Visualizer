@@ -1,10 +1,11 @@
 import Navbar from "./components/common/Navbar";
+import Board from "./components/Board";
 
 function App() {
     return (
         <>
             <Navbar />
-            <h1>Hello World</h1>
+            <Board />
         </>
     );
 }
