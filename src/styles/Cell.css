@@ -1,5 +1,12 @@
 .node {
-    height: 25px;
-    width: 25px;
-    border: 1px solid #2CD3E1;
-} 
+  height: 25px;
+  width: 25px;
+  border: 1px solid #2cd3e1;
+}
+
+.wall {
+  height: 25px;
+  width: 25px;
+  border: 1px solid #2cd3e1;
+  background-color: #000000;
+}
