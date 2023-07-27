@@ -1,18 +1,30 @@
-import { Dispatch, SetStateAction } from "react";
+import { BoardType } from "../types";
 import "../styles/Cell.css";
-
-function handleClick(vertex: number) {
-  console.log(vertex);
-}
+import { useEffect } from "react";
 
 function Cell({
-  setBoard,
-  vertex,
+    row,
+    col,
+    board,
+    nodeStyle,
+    setNodeStyle,
 }: {
-  setBoard: Dispatch<SetStateAction<Object[][]>>;
-  vertex: number;
+    board: BoardType;
+    row: number;
+    col: number;
+    nodeStyle: String;
+    setNodeStyle: React.Dispatch<React.SetStateAction<String>>;
 }) {
-  return <td className="node" onClick={() => handleClick(vertex)}></td>;
+    useEffect(() => {
+        board[row][col].isStartNode
+            ? setNodeStyle("startNode")
+            : board[row][col].isEndNode
+            ? setNodeStyle("endNode")
+            : board[row][col].isVisited
+            ? setNodeStyle("visited")
+            : setNodeStyle("node");
+    }, [nodeStyle, board]);
+    return <td className={`${nodeStyle}`}></td>;
 }
 
 export default Cell;
