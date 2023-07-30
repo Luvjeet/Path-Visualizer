@@ -4,6 +4,7 @@ export type DefaultNode = {
     isStartNode: boolean;
     isEndNode: boolean;
     isWeight: boolean;
+    isPath: boolean;
 };
 
 export type Node = {
@@ -20,6 +21,7 @@ export type DijkstraNode = {
     isStartNode: boolean;
     isEndNode: boolean;
     previousNode: DijkstraNode;
+    isPath: boolean;
 };
 
 export type BoardType = DijkstraNode[][] | DefaultNode[][];

@@ -5,15 +5,22 @@ export function dijkstra(
     board: DefaultNode[][] | DijkstraNode[][],
     source: Node,
     target: Node,
-): DijkstraNode[][] {
+): DijkstraNode[] {
     const rows = board.length;
     const cols = board[0].length;
     const grid: DijkstraNode[][] = [];
+    const visitedNodesInOrder: DijkstraNode[] = [];
 
     for (let i = 0; i < rows; i++) {
         let currentRow: DijkstraNode[] = [];
         for (let j = 0; j < cols; j++) {
-            let node: DijkstraNode = createNode(i, j, source, target);
+            let node: DijkstraNode = createNode(
+                board[i][j] as DefaultNode,
+                i,
+                j,
+                source,
+                target,
+            );
             currentRow.push(node);
         }
         grid.push(currentRow);
@@ -27,18 +34,22 @@ export function dijkstra(
         pq.sort((a, b) => a.distance - b.distance);
         const currNode = pq.shift();
 
-        if (!currNode || currNode?.isVisited) continue;
+        if (!currNode || currNode.isVisited || currNode.isWall) continue;
+
+        if (currNode.distance === Infinity) return visitedNodesInOrder;
+
+        currNode.isVisited = true;
+        currNode.isPath = true;
+        visitedNodesInOrder.push(currNode);
 
         if (currNode.row === target.row && currNode.col === target.col) {
             break;
         }
 
-        currNode.isVisited = true;
-
         const neighbors: DijkstraNode[] = getNeighbours(grid, currNode);
 
         for (const nbr of neighbors) {
-            if (!nbr.isVisited) {
+            if (!nbr.isVisited && !nbr.isWall) {
                 const currDist = getDistance(currNode, nbr);
                 const newDist = currNode.distance + currDist;
                 if (newDist < nbr.distance) {
@@ -49,7 +60,7 @@ export function dijkstra(
             }
         }
     }
-    return grid;
+    return visitedNodesInOrder;
 }
 
 const getDistance = (node1: Node, node2: Node) => {
@@ -68,18 +79,34 @@ function getNeighbours(
     if (currNode.col < grid[0].length - 1)
         neighbors.push(grid[currNode.row][currNode.col + 1]);
 
-    return neighbors;
+    return neighbors.filter((nbr) => !nbr.isVisited);
 }
 
-function createNode(row: number, col: number, source: Node, target: Node) {
+function createNode(
+    node: DefaultNode,
+    row: number,
+    col: number,
+    source: Node,
+    target: Node,
+) {
     return {
         row,
         col,
+        isWall: node.isWall,
         distance: Infinity,
-        isWall: false,
-        isVisited: false,
         isStartNode: row === source.row && col === source.col,
         isEndNode: row === target.row && col === target.col,
+        isPath: false,
         previousNode: {},
     } as DijkstraNode;
+}
+
+export function getShortestPath(target: DijkstraNode): DijkstraNode[] {
+    let temp: DijkstraNode[] = [];
+    let curr = target;
+    while (curr) {
+        temp.unshift(curr);
+        curr = curr.previousNode;
+    }
+    return temp;
 }

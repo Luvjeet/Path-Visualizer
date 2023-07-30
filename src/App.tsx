@@ -13,13 +13,12 @@ function App() {
         isStartNode: false,
         isEndNode: false,
         isWeight: false,
+        isPath: false,
     };
 
     const [board, setBoard] = useState<BoardType>(
         Array.from({ length: rows }, () => Array(cols).fill(defaultNode)),
     );
-
-    const [nodeStyle, setNodeStyle] = useState<String>("node");
 
     useEffect(() => {
         initializeNode();
@@ -38,6 +37,9 @@ function App() {
                     node.isEndNode = true;
                 }
                 currentRow.push(node);
+                const elem = document.getElementById(`${i}-${j}`);
+                elem?.classList.replace("visited", "node");
+                elem?.classList.replace("path", "node");
             }
             grid.push(currentRow);
         }
@@ -46,13 +48,12 @@ function App() {
 
     return (
         <>
-            <Navbar setBoard={setBoard} board={board} />
-            <Board
+            <Navbar
                 setBoard={setBoard}
                 board={board}
-                nodeStyle={nodeStyle}
-                setNodeStyle={setNodeStyle}
+                initializeNode={initializeNode}
             />
+            <Board board={board} setBoard={setBoard} />
         </>
     );
 }
