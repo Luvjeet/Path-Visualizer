@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "../../styles/Navbar.css";
-import { DijkstraNode, Node, BoardType } from "../../types";
-import { dijkstra, getShortestPath } from "../algorithms/Dijkstra";
+import { DijkstraNode, Node, BoardType, DFSNode } from "../../types";
+import { dijkstra } from "../algorithms/Dijkstra";
+import { dfs } from "../algorithms/Dfs.ts";
+import { getShortestPath } from "../Utils.tsx";
 
 function Navbar({
     board,
@@ -11,26 +13,65 @@ function Navbar({
     board: BoardType;
     initializeNode: () => void;
 }) {
+    const source: Node = { row: 10, col: 15 };
+    const target: Node = { row: 10, col: 35 };
     const [algo, setAlgo] = useState<string>("");
 
     function handleClick(algo: string): void {
         if (algo === "Dijkstra") {
             visualize_dijkstra();
+        } else if (algo === "Depth First Search") {
+            visualize_dfs();
         }
         return;
     }
 
+    function visualize_dfs() {
+        const path: DFSNode[] = dfs(board, source, target);
+        const shortestPath = getShortestPath(
+            path[path.length - 1],
+        ) as DFSNode[];
+        if (path.length === 0) {
+            return alert("Target Node Not Found!");
+        } else {
+            for (let i = 0; i < path.length - 1; i++) {
+                if (i === path.length - 2) {
+                    //animate pat
+                    setTimeout(() => {
+                        for (let i = 0; i < shortestPath.length; i++) {
+                            setTimeout(() => {
+                                let node = shortestPath[i];
+                                const elem = document.getElementById(
+                                    `${node.row}-${node.col}`,
+                                );
+                                elem?.classList.replace("visited", "path");
+                            }, i * 5);
+                        }
+                    }, i * 5);
+                } else {
+                    setTimeout(() => {
+                        let node = path[i];
+                        const elem = document.getElementById(
+                            `${node.row}-${node.col}`,
+                        );
+                        elem?.classList.replace("node", "visited");
+                    }, i * 5);
+                }
+            }
+        }
+    }
+
     function visualize_dijkstra() {
-        let source: Node = { row: 10, col: 15 };
-        let target: Node = { row: 10, col: 35 };
         const path: DijkstraNode[] = dijkstra(board, source, target);
         let targetNode: DijkstraNode = path[path.length - 1];
-        let shortestPath: DijkstraNode[] = getShortestPath(targetNode);
+        let shortestPath = getShortestPath(targetNode) as DijkstraNode[];
         if (
             shortestPath[shortestPath.length - 1].row !== target.row &&
             shortestPath[shortestPath.length - 1].col !== target.col
-        )
+        ) {
             shortestPath = [];
+            return alert("Target Node Not Found!");
+        }
         for (let i = 0; i < path.length - 1; i++) {
             if (i === path.length - 2) {
                 //animate pat

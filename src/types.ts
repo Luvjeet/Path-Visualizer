@@ -24,4 +24,17 @@ export type DijkstraNode = {
     isPath: boolean;
 };
 
-export type BoardType = DijkstraNode[][] | DefaultNode[][];
+export type DFSNode = {
+    row: number;
+    col: number;
+    isWall: boolean;
+    isVisited: boolean;
+    isStartNode: boolean;
+    isEndNode: boolean;
+    isWeight: boolean;
+    isPath: boolean;
+    previousNode: DFSNode;
+};
+
+export type BoardType = DijkstraNode[][] | DefaultNode[][] | DFSNode[][];
+export type BoardTypeNode = DijkstraNode | DefaultNode | DFSNode;
