@@ -36,5 +36,21 @@ export type DFSNode = {
     previousNode: DFSNode;
 };
 
-export type BoardType = DijkstraNode[][] | DefaultNode[][] | DFSNode[][];
-export type BoardTypeNode = DijkstraNode | DefaultNode | DFSNode;
+export type BFSNode = {
+    row: number;
+    col: number;
+    isWall: boolean;
+    isVisited: boolean;
+    isStartNode: boolean;
+    isEndNode: boolean;
+    isWeight: boolean;
+    isPath: boolean;
+    previousNode: DFSNode;
+};
+
+export type BoardType =
+    | DijkstraNode[][]
+    | DefaultNode[][]
+    | DFSNode[][]
+    | BFSNode[][];
+export type BoardTypeNode = DijkstraNode | DefaultNode | DFSNode | BFSNode;

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "../../styles/Navbar.css";
-import { DijkstraNode, Node, BoardType, DFSNode } from "../../types";
+import { DijkstraNode, Node, BoardType, DFSNode, BFSNode } from "../../types";
 import { dijkstra } from "../algorithms/Dijkstra";
 import { dfs } from "../algorithms/Dfs.ts";
+import { bfs } from "../algorithms/Bfs.ts";
 import { getShortestPath } from "../Utils.tsx";
 
 function Navbar({
@@ -22,8 +23,41 @@ function Navbar({
             visualize_dijkstra();
         } else if (algo === "Depth First Search") {
             visualize_dfs();
+        } else if (algo === "Breadth First Search") {
+            visualize_bfs();
         }
         return;
+    }
+    function visualize_bfs() {
+        const path = bfs(board, source, target);
+        const shortestPath = getShortestPath(
+            path[path.length - 1],
+        ) as BFSNode[];
+
+        for (let i = 0; i < path.length - 1; i++) {
+            if (i === path.length - 2) {
+                //animate pat
+                setTimeout(() => {
+                    for (let i = 0; i < shortestPath.length; i++) {
+                        setTimeout(() => {
+                            let node = shortestPath[i];
+                            const elem = document.getElementById(
+                                `${node.row}-${node.col}`,
+                            );
+                            elem?.classList.replace("visited", "path");
+                        }, i * 5);
+                    }
+                }, i * 5);
+            } else {
+                setTimeout(() => {
+                    let node = path[i];
+                    const elem = document.getElementById(
+                        `${node.row}-${node.col}`,
+                    );
+                    elem?.classList.replace("node", "visited");
+                }, i * 5);
+            }
+        }
     }
 
     function visualize_dfs() {
@@ -108,6 +142,7 @@ function Navbar({
                             <option hidden>Algorithms</option>
                             <option>Dijkstra</option>
                             <option>Depth First Search</option>
+                            <option>Breadth First Search</option>
                         </select>
                     </li>
                     <li>
