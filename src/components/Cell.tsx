@@ -6,11 +6,17 @@ function Cell({
     row,
     col,
     board,
+    mouseDown,
+    mouseUp,
+    mouseEnter,
     setBoard,
 }: {
     board: BoardType;
     row: number;
     col: number;
+    mouseDown: () => void;
+    mouseUp: () => void;
+    mouseEnter: () => void;
     setBoard: React.Dispatch<React.SetStateAction<BoardType>>;
 }) {
     const node = board[row][col];
@@ -32,22 +38,25 @@ function Cell({
         );
     }, [node]);
 
-    function handleClick() {
-        if (!node.isStartNode && !node.isEndNode) {
-            const updateBoard = [...board];
-            updateBoard[row][col] = {
-                ...updateBoard[row][col],
-                isWall: !updateBoard[row][col].isWall,
-            };
-            setBoard(updateBoard);
-        }
-    }
+    //function handleMouseEnter(r: number, c: number) {
+    //    if (!toggleMouse) return;
+    //    if (!node.isStartNode && !node.isEndNode) {
+    //        const updateBoard = [...board];
+    //        updateBoard[r][c] = {
+    //            ...updateBoard[r][c],
+    //            isWall: !updateBoard[r][c].isWall,
+    //        };
+    //        setBoard(updateBoard as BoardType);
+    //    }
+    //}
 
     return (
         <td
             id={`${row}-${col}`}
             className={`${cellStyle}`}
-            onClick={handleClick}
+            onMouseEnter={mouseEnter}
+            onMouseUp={mouseUp}
+            onMouseDown={mouseDown}
         ></td>
     );
 }
