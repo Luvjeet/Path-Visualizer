@@ -5,14 +5,14 @@ export function getNeighbours(
     currNode: BoardTypeNode,
 ): BoardTypeNode[] {
     const neighbors: BoardTypeNode[] = [];
-    if (currNode.row < grid.length - 1)
-        neighbors.push(grid[currNode.row + 1][currNode.col]);
     if (currNode.col < grid[0].length - 1)
         neighbors.push(grid[currNode.row][currNode.col + 1]);
+    if (currNode.row < grid.length - 1)
+        neighbors.push(grid[currNode.row + 1][currNode.col]);
     if (currNode.row > 0) neighbors.push(grid[currNode.row - 1][currNode.col]);
     if (currNode.col > 0) neighbors.push(grid[currNode.row][currNode.col - 1]);
 
-    return neighbors.filter((nbr) => !nbr.isVisited);
+    return neighbors.filter((nbr) => !nbr.isWall && !nbr.isVisited);
 }
 
 export function getShortestPath(target: BoardTypeNode): BoardTypeNode[] {

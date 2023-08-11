@@ -13,7 +13,6 @@ function App() {
         isStartNode: false,
         isEndNode: false,
         isWeight: false,
-        isPath: false,
     };
 
     const [board, setBoard] = useState<BoardType>(

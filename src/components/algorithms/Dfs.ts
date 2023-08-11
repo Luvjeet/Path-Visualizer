@@ -1,9 +1,8 @@
 //implement dfs
 
-import { BoardType, DefaultNode, Node, DFSNode } from "../../types";
-import { getNeighbours } from "../Utils";
+import { BoardType, DefaultNode, node, DFSNode } from "../../types";
 
-export function dfs(board: BoardType, source: Node, target: Node): DFSNode[] {
+export function dfs(board: BoardType, source: node, target: node): DFSNode[] {
     const grid: DFSNode[][] = [];
     const path: DFSNode[] = [];
 
@@ -26,7 +25,7 @@ export function dfs(board: BoardType, source: Node, target: Node): DFSNode[] {
 function walk(
     grid: DFSNode[][],
     curr: DFSNode,
-    target: Node,
+    target: node,
     path: DFSNode[],
 ): boolean {
     if (
@@ -65,9 +64,20 @@ function creatDFSNode(row: number, col: number, node: DefaultNode) {
     return {
         ...node,
         isVisited: false,
-        isPath: false,
         previousNode: {},
         row,
         col,
     } as DFSNode;
+}
+
+function getNeighbours(grid: DFSNode[][], currNode: DFSNode): DFSNode[] {
+    const neighbors: DFSNode[] = [];
+    if (currNode.row < grid.length - 1)
+        neighbors.push(grid[currNode.row + 1][currNode.col]);
+    if (currNode.col < grid[0].length - 1)
+        neighbors.push(grid[currNode.row][currNode.col + 1]);
+    if (currNode.row > 0) neighbors.push(grid[currNode.row - 1][currNode.col]);
+    if (currNode.col > 0) neighbors.push(grid[currNode.row][currNode.col - 1]);
+
+    return neighbors.filter((nbr) => !nbr.isWall && !nbr.isVisited);
 }

@@ -1,4 +1,4 @@
-import { BoardType, BoardTypeNode } from "../types";
+import { BoardType } from "../types";
 import "../styles/Board.css";
 import Cell from "./Cell";
 import { useState } from "react";
@@ -11,12 +11,18 @@ type Props = {
 function Board({ board, setBoard }: Props) {
     const [toggleMouse, setToggleMouse] = useState<boolean>(false);
 
-    function handleMouseDown() {
+    function handleMouseDown(r: number, c: number) {
         setToggleMouse(true);
+        const updateBoard = [...board];
+        updateBoard[r][c] = {
+            ...updateBoard[r][c],
+            isWall: !updateBoard[r][c].isWall,
+        };
+        setBoard(updateBoard as BoardType);
     }
 
     function handleMouseUp() {
-        console.log("up");
+        setToggleMouse(false);
     }
 
     function handleMouseEnter(r: number, c: number) {
@@ -41,7 +47,9 @@ function Board({ board, setBoard }: Props) {
                                     row={rowIdx}
                                     col={colIdx}
                                     board={board}
-                                    mouseDown={handleMouseDown}
+                                    mouseDown={() =>
+                                        handleMouseDown(rowIdx, colIdx)
+                                    }
                                     mouseEnter={() =>
                                         handleMouseEnter(rowIdx, colIdx)
                                     }

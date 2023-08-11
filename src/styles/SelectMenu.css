@@ -1,0 +1,30 @@
+.select-container {
+    background: white;
+    margin: auto;
+    width: 7em;
+    height: 1.8em;
+    display: flex;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+    padding-left: 0.3em;
+}
+
+.select-options {
+    position: absolute;
+    top: 1.8rem;
+    left: 0;
+    height: 5rem;
+    width: 7em;
+    display: flex;
+    align-items: center;
+    background: white;
+    padding-left: 0.3em;
+}
+
+.select-options > ul {
+    list-style: none;
+    text-decoration: none;
+    user-select: none;
+}

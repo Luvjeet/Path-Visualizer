@@ -1,11 +1,11 @@
-import { DefaultNode, Node, DijkstraNode } from "../../types";
+import { DefaultNode, node, DijkstraNode } from "../../types";
 import { getNeighbours } from "../Utils";
 
 //Implement dijkstra algo
 export function dijkstra(
     board: DefaultNode[][] | DijkstraNode[][],
-    source: Node,
-    target: Node,
+    source: node,
+    target: node,
 ): DijkstraNode[] {
     const rows = board.length;
     const cols = board[0].length;
@@ -40,7 +40,6 @@ export function dijkstra(
         if (currNode.distance === Infinity) return visitedNodesInOrder;
 
         currNode.isVisited = true;
-        currNode.isPath = true;
         visitedNodesInOrder.push(currNode);
 
         if (currNode.row === target.row && currNode.col === target.col) {
@@ -64,7 +63,7 @@ export function dijkstra(
     return visitedNodesInOrder;
 }
 
-const getDistance = (node1: Node, node2: Node) => {
+const getDistance = (node1: node, node2: node) => {
     return Math.abs(node1.row - node2.row) + Math.abs(node1.col - node2.col);
 };
 
@@ -72,17 +71,18 @@ function createNode(
     node: DefaultNode,
     row: number,
     col: number,
-    source: Node,
-    target: Node,
+    source: node,
+    target: node,
 ) {
     return {
         row,
         col,
         isWall: node.isWall,
+        isVisited: node.isVisited,
         distance: Infinity,
         isStartNode: row === source.row && col === source.col,
         isEndNode: row === target.row && col === target.col,
         isPath: false,
-        previousNode: {},
+        previousNode: {} as DijkstraNode,
     } as DijkstraNode;
 }

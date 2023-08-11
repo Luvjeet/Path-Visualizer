@@ -4,10 +4,9 @@ export type DefaultNode = {
     isStartNode: boolean;
     isEndNode: boolean;
     isWeight: boolean;
-    isPath: boolean;
 };
 
-export type Node = {
+export type node = {
     row: number;
     col: number;
 };
@@ -21,7 +20,6 @@ export type DijkstraNode = {
     isStartNode: boolean;
     isEndNode: boolean;
     previousNode: DijkstraNode;
-    isPath: boolean;
 };
 
 export type DFSNode = {
@@ -32,7 +30,6 @@ export type DFSNode = {
     isStartNode: boolean;
     isEndNode: boolean;
     isWeight: boolean;
-    isPath: boolean;
     previousNode: DFSNode;
 };
 
@@ -44,13 +41,32 @@ export type BFSNode = {
     isStartNode: boolean;
     isEndNode: boolean;
     isWeight: boolean;
-    isPath: boolean;
     previousNode: DFSNode;
+};
+
+export type AStar = {
+    row: number;
+    col: number;
+    isWall: boolean;
+    isVisited: boolean;
+    isStartNode: boolean;
+    isEndNode: boolean;
+    isWeight: boolean;
+    f: number;
+    h: number;
+    g: number;
+    previousNode: AStar;
 };
 
 export type BoardType =
     | DijkstraNode[][]
     | DefaultNode[][]
     | DFSNode[][]
-    | BFSNode[][];
-export type BoardTypeNode = DijkstraNode | DefaultNode | DFSNode | BFSNode;
+    | BFSNode[][]
+    | AStar[][];
+export type BoardTypeNode =
+    | DijkstraNode
+    | DefaultNode
+    | DFSNode
+    | BFSNode
+    | AStar;

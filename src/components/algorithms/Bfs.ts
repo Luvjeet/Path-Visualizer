@@ -1,9 +1,9 @@
 //implement bfs
 
-import { BFSNode, BoardType, BoardTypeNode, Node } from "../../types";
+import { BFSNode, BoardType, BoardTypeNode, node } from "../../types";
 import { getNeighbours } from "../Utils";
 
-export function bfs(board: BoardType, source: Node, target: Node): BFSNode[] {
+export function bfs(board: BoardType, source: node, target: node): BFSNode[] {
     const grid: BFSNode[][] = [];
     const visitedNodes: BFSNode[] = [];
 

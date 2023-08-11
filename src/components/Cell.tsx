@@ -9,7 +9,6 @@ function Cell({
     mouseDown,
     mouseUp,
     mouseEnter,
-    setBoard,
 }: {
     board: BoardType;
     row: number;
@@ -28,10 +27,6 @@ function Cell({
                 ? "startNode"
                 : board[row][col].isEndNode
                 ? "endNode"
-                : board[row][col].isVisited
-                ? "visited"
-                : board[row][col].isPath
-                ? "path"
                 : board[row][col].isWall
                 ? "wall"
                 : "node",

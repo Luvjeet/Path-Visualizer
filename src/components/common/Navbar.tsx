@@ -1,10 +1,19 @@
 import { useState } from "react";
 import "../../styles/Navbar.css";
-import { DijkstraNode, Node, BoardType, DFSNode, BFSNode } from "../../types";
+import {
+    DijkstraNode,
+    node,
+    BoardType,
+    DFSNode,
+    BFSNode,
+    AStar,
+} from "../../types";
 import { dijkstra } from "../algorithms/Dijkstra";
 import { dfs } from "../algorithms/Dfs.ts";
 import { bfs } from "../algorithms/Bfs.ts";
 import { getShortestPath } from "../Utils.tsx";
+import SelectMenu from "./SelectMenu.tsx";
+import { Astar } from "../algorithms/Astar.ts";
 
 function Navbar({
     board,
@@ -14,50 +23,39 @@ function Navbar({
     board: BoardType;
     initializeNode: () => void;
 }) {
-    const source: Node = { row: 10, col: 15 };
-    const target: Node = { row: 10, col: 35 };
-    const [algo, setAlgo] = useState<string>("");
+    const source: node = { row: 10, col: 15 };
+    const target: node = { row: 10, col: 35 };
+    const [algo, setAlgo] = useState<string>("--Select--");
 
     function handleClick(algo: string): void {
         if (algo === "Dijkstra") {
             visualize_dijkstra();
-        } else if (algo === "Depth First Search") {
+        } else if (algo === "DFS") {
             visualize_dfs();
-        } else if (algo === "Breadth First Search") {
+        } else if (algo === "BFS") {
             visualize_bfs();
+        } else if (algo === "Astar") {
+            visualize_astar();
         }
         return;
     }
+
+    function visualize_astar() {
+        const path = Astar(board, source, target);
+        const shortestPath: AStar[] = getShortestPath(
+            path[path.length - 1],
+        ) as AStar[];
+        if (path.length === 0) alert("Target not Found!");
+        animate(path, shortestPath);
+    }
+
     function visualize_bfs() {
         const path = bfs(board, source, target);
         const shortestPath = getShortestPath(
             path[path.length - 1],
         ) as BFSNode[];
 
-        for (let i = 0; i < path.length - 1; i++) {
-            if (i === path.length - 2) {
-                //animate pat
-                setTimeout(() => {
-                    for (let i = 0; i < shortestPath.length; i++) {
-                        setTimeout(() => {
-                            let node = shortestPath[i];
-                            const elem = document.getElementById(
-                                `${node.row}-${node.col}`,
-                            );
-                            elem?.classList.replace("visited", "path");
-                        }, i * 5);
-                    }
-                }, i * 5);
-            } else {
-                setTimeout(() => {
-                    let node = path[i];
-                    const elem = document.getElementById(
-                        `${node.row}-${node.col}`,
-                    );
-                    elem?.classList.replace("node", "visited");
-                }, i * 5);
-            }
-        }
+        animate(path, shortestPath);
     }
 
     function visualize_dfs() {
@@ -68,30 +66,7 @@ function Navbar({
         if (path.length === 0) {
             return alert("Target Node Not Found!");
         } else {
-            for (let i = 0; i < path.length - 1; i++) {
-                if (i === path.length - 2) {
-                    //animate pat
-                    setTimeout(() => {
-                        for (let i = 0; i < shortestPath.length; i++) {
-                            setTimeout(() => {
-                                let node = shortestPath[i];
-                                const elem = document.getElementById(
-                                    `${node.row}-${node.col}`,
-                                );
-                                elem?.classList.replace("visited", "path");
-                            }, i * 5);
-                        }
-                    }, i * 5);
-                } else {
-                    setTimeout(() => {
-                        let node = path[i];
-                        const elem = document.getElementById(
-                            `${node.row}-${node.col}`,
-                        );
-                        elem?.classList.replace("node", "visited");
-                    }, i * 5);
-                }
-            }
+            animate(path, shortestPath);
         }
     }
 
@@ -106,6 +81,13 @@ function Navbar({
             shortestPath = [];
             return alert("Target Node Not Found!");
         }
+        animate(path, shortestPath);
+    }
+
+    function animate(
+        path: DFSNode[] | DijkstraNode[] | BFSNode[],
+        shortestPath: DFSNode[] | DijkstraNode[] | BFSNode[],
+    ) {
         for (let i = 0; i < path.length - 1; i++) {
             if (i === path.length - 2) {
                 //animate pat
@@ -117,9 +99,9 @@ function Navbar({
                                 `${node.row}-${node.col}`,
                             );
                             elem?.classList.replace("visited", "path");
-                        }, i * 5);
+                        }, i * 15);
                     }
-                }, i * 5);
+                }, i * 15);
             } else {
                 setTimeout(() => {
                     let node = path[i];
@@ -127,7 +109,7 @@ function Navbar({
                         `${node.row}-${node.col}`,
                     );
                     elem?.classList.replace("node", "visited");
-                }, i * 5);
+                }, i * 15);
             }
         }
     }
@@ -138,12 +120,18 @@ function Navbar({
                 <h2>Path Visualizer</h2>
                 <ul className="nav-list">
                     <li>
-                        <select onChange={(e) => setAlgo(e.target.value)}>
+                        {/*<select onChange={(e) => setAlgo(e.target.value)}>
                             <option hidden>Algorithms</option>
                             <option>Dijkstra</option>
                             <option>Depth First Search</option>
                             <option>Breadth First Search</option>
                         </select>
+                        */}
+                        <SelectMenu
+                            options={["Dijkstra", "DFS", "BFS", "Astar"]}
+                            algo={algo}
+                            setAlgo={setAlgo}
+                        />
                     </li>
                     <li>
                         <button
