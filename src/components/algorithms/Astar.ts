@@ -50,30 +50,32 @@ export function Astar(board: BoardType, source: node, target: node): AStar[] {
                 continue;
             }
 
-            const tentaiveG = curr.g + 1;
+            const tentaiveG = curr.g + heuristic(curr, nbr);
 
             if (!isPresentInList(nbr, openList) || tentaiveG < nbr.g) {
                 nbr.previousNode = curr;
                 nbr.g = tentaiveG;
                 nbr.h = heuristic(nbr, endNode);
-                nbr.f = nbr.g + nbr.h;
+                nbr.f = tentaiveG + nbr.h;
 
                 if (!isPresentInList(nbr, openList)) {
-                    openList.push(nbr);
+                    openList.unshift(nbr);
                 }
             }
         }
-        closeList.push(curr);
+        closeList.unshift(curr);
     }
     return [];
 }
 
 function heuristic(node: AStar, target: AStar): number {
-    return Math.sqrt(
-        Math.pow(Math.abs(node.row - target.row), 2) +
-            Math.pow(Math.abs(node.col - target.col), 2),
-    );
-    //return Math.abs(node.row - target.row) + Math.abs(node.col - target.col);
+    //for diagonal motion
+    //return Math.sqrt(
+    //    Math.pow(Math.abs(node.row - target.row), 2) +
+    //        Math.pow(Math.abs(node.col - target.col), 2),
+    //);
+    //for 4 directional motion
+    return Math.abs(node.row - target.row) + Math.abs(node.col - target.col);
 }
 
 function createNode(
@@ -118,14 +120,15 @@ function getNeighbours(grid: AStar[][], currNode: AStar): AStar[] {
     if (currNode.row > 0) neighbors.push(grid[currNode.row - 1][currNode.col]);
     if (currNode.col > 0) neighbors.push(grid[currNode.row][currNode.col - 1]);
 
-    if (currNode.row > 0 && currNode.col > 0)
-        neighbors.push(grid[currNode.row - 1][currNode.col - 1]);
-    if (currNode.row > 0 && currNode.col < col - 1)
-        neighbors.push(grid[currNode.row - 1][currNode.col + 1]);
-    if (currNode.row < row - 1 && currNode.col > 0)
-        neighbors.push(grid[currNode.row + 1][currNode.col - 1]);
-    if (currNode.row < row - 1 && currNode.col < col - 1)
-        neighbors.push(grid[currNode.row + 1][currNode.col + 1]);
-
+    //for diagonal motion
+    //    if (currNode.row > 0 && currNode.col > 0)
+    //        neighbors.push(grid[currNode.row - 1][currNode.col - 1]);
+    //    if (currNode.row > 0 && currNode.col < col - 1)
+    //        neighbors.push(grid[currNode.row - 1][currNode.col + 1]);
+    //    if (currNode.row < row - 1 && currNode.col > 0)
+    //        neighbors.push(grid[currNode.row + 1][currNode.col - 1]);
+    //    if (currNode.row < row - 1 && currNode.col < col - 1)
+    //        neighbors.push(grid[currNode.row + 1][currNode.col + 1]);
+    //
     return neighbors.filter((nbr) => !nbr.isWall && !nbr.isVisited);
 }

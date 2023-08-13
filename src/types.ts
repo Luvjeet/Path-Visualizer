@@ -58,15 +58,27 @@ export type AStar = {
     previousNode: AStar;
 };
 
+export type BFSGreedy = {
+    row: number;
+    col: number;
+    isWall: boolean;
+    isVisited: boolean;
+    isStartNode: boolean;
+    isEndNode: boolean;
+    previousNode: BFSGreedy;
+};
+
 export type BoardType =
     | DijkstraNode[][]
     | DefaultNode[][]
     | DFSNode[][]
     | BFSNode[][]
-    | AStar[][];
+    | AStar[][]
+    | BFSGreedy[][];
 export type BoardTypeNode =
     | DijkstraNode
     | DefaultNode
     | DFSNode
     | BFSNode
-    | AStar;
+    | AStar
+    | BFSGreedy;

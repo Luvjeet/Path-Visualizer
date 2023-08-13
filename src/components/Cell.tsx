@@ -33,18 +33,6 @@ function Cell({
         );
     }, [node]);
 
-    //function handleMouseEnter(r: number, c: number) {
-    //    if (!toggleMouse) return;
-    //    if (!node.isStartNode && !node.isEndNode) {
-    //        const updateBoard = [...board];
-    //        updateBoard[r][c] = {
-    //            ...updateBoard[r][c],
-    //            isWall: !updateBoard[r][c].isWall,
-    //        };
-    //        setBoard(updateBoard as BoardType);
-    //    }
-    //}
-
     return (
         <td
             id={`${row}-${col}`}

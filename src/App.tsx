@@ -47,11 +47,7 @@ function App() {
 
     return (
         <>
-            <Navbar
-                setBoard={setBoard}
-                board={board}
-                initializeNode={initializeNode}
-            />
+            <Navbar board={board} initializeNode={initializeNode} />
             <Board board={board} setBoard={setBoard} />
         </>
     );

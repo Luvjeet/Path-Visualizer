@@ -23,12 +23,16 @@ export function bfs(board: BoardType, source: node, target: node): BFSNode[] {
     while (pq.length > 0) {
         let curr = pq.shift();
 
-        if (!curr || curr.isVisited) continue;
-
-        if (curr.row === target.row && curr.col === target.col) break;
+        if (!curr || curr.isVisited || curr.isWall) continue;
 
         curr.isVisited = true;
         visitedNodes.push(curr);
+
+        if (curr.row === target.row && curr.col === target.col) {
+            visitedNodes.push(curr);
+            break;
+        }
+
         const neighbours = getNeighbours(grid, curr) as BFSNode[];
 
         for (const nbr of neighbours) {
@@ -38,6 +42,8 @@ export function bfs(board: BoardType, source: node, target: node): BFSNode[] {
             }
         }
     }
+    if (visitedNodes[visitedNodes.length - 1] !== grid[target.row][target.col])
+        return [];
     return visitedNodes;
 }
 
@@ -45,7 +51,6 @@ function createBFSNode(node: BoardTypeNode, row: number, col: number) {
     return {
         ...node,
         isVisited: false,
-        isPath: false,
         previousNode: {},
         row,
         col,
