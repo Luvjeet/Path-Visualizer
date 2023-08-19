@@ -1,24 +1,16 @@
-import { BoardType } from "../types";
 import "../styles/Board.css";
 import Cell from "./Cell";
 import { useState } from "react";
+import { useBoardStore } from "./State";
 
-type Props = {
-    board: BoardType;
-    setBoard: React.Dispatch<React.SetStateAction<BoardType>>;
-};
-
-function Board({ board, setBoard }: Props) {
+function Board() {
     const [toggleMouse, setToggleMouse] = useState<boolean>(false);
+    const board = useBoardStore((state) => state.board);
+    const updateBoard = useBoardStore((state) => state.updateBoard);
 
     function handleMouseDown(r: number, c: number) {
         setToggleMouse(true);
-        const updateBoard = [...board];
-        updateBoard[r][c] = {
-            ...updateBoard[r][c],
-            isWall: !updateBoard[r][c].isWall,
-        };
-        setBoard(updateBoard as BoardType);
+        updateBoard(board, r, c);
     }
 
     function handleMouseUp() {
@@ -27,12 +19,7 @@ function Board({ board, setBoard }: Props) {
 
     function handleMouseEnter(r: number, c: number) {
         if (!toggleMouse) return;
-        const updateBoard = [...board];
-        updateBoard[r][c] = {
-            ...updateBoard[r][c],
-            isWall: !updateBoard[r][c].isWall,
-        };
-        setBoard(updateBoard as BoardType);
+        updateBoard(board, r, c);
     }
 
     return (
@@ -54,7 +41,6 @@ function Board({ board, setBoard }: Props) {
                                         handleMouseEnter(rowIdx, colIdx)
                                     }
                                     mouseUp={handleMouseUp}
-                                    setBoard={setBoard}
                                 />
                             ))}
                         </tr>

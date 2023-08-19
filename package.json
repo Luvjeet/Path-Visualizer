@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "commonjs",
-  "homepage":"https://luvjeet.github.io/Path-Visualizer",
+  "homepage": "https://luvjeet.github.io/Path-Visualizer",
   "scripts": {
     "dev": "vite --port 6969",
     "predeploy": "yarn run build",
@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",

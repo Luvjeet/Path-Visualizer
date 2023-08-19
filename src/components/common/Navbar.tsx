@@ -1,21 +1,17 @@
 import { useState } from "react";
 import "../../styles/Navbar.css";
-import { BoardType } from "../../types";
 import SelectMenu from "./SelectMenu.tsx";
 import Visualize from "../components/Visualize.tsx";
+import { useBoardStore } from "../State.tsx";
 
-function Navbar({
-    board,
-    initializeNode,
-}: {
-    board: BoardType;
-    initializeNode: () => void;
-}) {
+function Navbar() {
     const [algo, setAlgo] = useState<string>("--Select--");
+    const boardx = useBoardStore((state) => state.board);
+    const createBoard = useBoardStore((state) => state.initializeBoard);
 
     function clearPath() {
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[0].length; j++) {
+        for (let i = 0; i < boardx.length; i++) {
+            for (let j = 0; j < boardx[0].length; j++) {
                 const elem = document.getElementById(`${i}-${j}`);
                 elem?.classList.replace("visited", "node");
                 elem?.classList.replace("path", "node");
@@ -44,7 +40,7 @@ function Navbar({
                     <li>
                         <button
                             className="nav-btn"
-                            onClick={() => initializeNode()}
+                            onClick={() => createBoard()}
                         >
                             Clear Board
                         </button>
@@ -55,7 +51,7 @@ function Navbar({
                         </button>
                     </li>
                     <li>
-                        <Visualize board={board} algo={algo} />
+                        <Visualize board={boardx} algo={algo} />
                     </li>
                 </ul>
             </nav>

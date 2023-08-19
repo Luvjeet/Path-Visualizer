@@ -16,7 +16,6 @@ function Cell({
     mouseDown: () => void;
     mouseUp: () => void;
     mouseEnter: () => void;
-    setBoard: React.Dispatch<React.SetStateAction<BoardType>>;
 }) {
     const node = board[row][col];
     const [cellStyle, setCellStyle] = useState<string>("node");
