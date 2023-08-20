@@ -18,6 +18,7 @@
     height: auto;
     width: 7em;
     background: white;
+    z-index: 10;
 }
 
 .select-options > ul {
