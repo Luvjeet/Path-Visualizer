@@ -17,7 +17,9 @@ function SelectMenu({
             className="select-container"
             onClick={() => setToggleMenu(!toggleMenu)}
         >
-            <p>{algo}</p>
+            <p title={algo}>
+                {algo.length > 8 ? algo.slice(0, 8) + "..." : algo}
+            </p>
             {toggleMenu && (
                 <div className="select-options">
                     <ul>

@@ -14,6 +14,8 @@ import { bfs } from "../algorithms/Bfs.ts";
 import { getShortestPath } from "../Utils.tsx";
 import { greedyBFS } from "../algorithms/GreedyBFS.ts";
 import { Astar } from "../algorithms/Astar.ts";
+import { swarm } from "../algorithms/Swarm.ts";
+import { biSwarm } from "../algorithms/BiSwarm.ts";
 
 function Visualize({ board, algo }: { board: BoardType; algo: string }) {
     const source: node = { row: 10, col: 15 };
@@ -28,7 +30,11 @@ function Visualize({ board, algo }: { board: BoardType; algo: string }) {
         } else if (algo === "Astar") {
             visualize_astar();
         } else if (algo === "Greedy Best-First Search") {
-            visualze_greedyBFS();
+            visualize_greedyBFS();
+        } else if (algo === "Swarm") {
+            visualize_swarm();
+        } else if (algo === "Bi-Directional Swarm") {
+            visualize_biswarm();
         }
         return;
     }
@@ -42,7 +48,7 @@ function Visualize({ board, algo }: { board: BoardType; algo: string }) {
         animate(path, shortestPath);
     }
 
-    function visualze_greedyBFS() {
+    function visualize_greedyBFS() {
         const path = greedyBFS(board, source, target);
         const shortestPath: AStar[] = getShortestPath(
             path[path.length - 1],
@@ -89,7 +95,33 @@ function Visualize({ board, algo }: { board: BoardType; algo: string }) {
         }
         animate(path, shortestPath);
     }
+    function visualize_swarm() {
+        const path: DijkstraNode[] = swarm(
+            board as DefaultNode[][],
+            source,
+            target,
+        );
+        const shortestPath = getShortestPath(
+            path[path.length - 1],
+        ) as DijkstraNode[];
+        animate(path, shortestPath);
+    }
 
+    function visualize_biswarm() {
+        const path: DijkstraNode[] = biSwarm(
+            board as DefaultNode[][],
+            source,
+            target,
+        );
+        const shortestPath1 = getShortestPath(
+            path[path.length - 1],
+        ) as DijkstraNode[];
+        const shortestPath2 = getShortestPath(path[path.length - 2]);
+        animate(path, [
+            ...shortestPath2,
+            ...shortestPath1.reverse(),
+        ] as DijkstraNode[]);
+    }
     function animate(
         path: DFSNode[] | DijkstraNode[] | BFSNode[] | BFSGreedy[],
         shortestPath: DFSNode[] | DijkstraNode[] | BFSNode[] | BFSGreedy[],
