@@ -82,7 +82,6 @@ function createNode(
         distance: Infinity,
         isStartNode: row === source.row && col === source.col,
         isEndNode: row === target.row && col === target.col,
-        isPath: false,
         previousNode: {} as DijkstraNode,
     } as DijkstraNode;
 }
