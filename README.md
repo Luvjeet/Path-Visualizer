@@ -10,7 +10,8 @@ This application supports the following algorithms:
 >
 >The father of pathfinding algorithms; guarantees the shortest path
 >
-**A* Search** (weighted): arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm
+**A* Search** (weighted):
+>Arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm
 
 **Greedy Best-first Search** (weighted): a faster, more heuristic-heavy version of A*; does not guarantee the shortest path
 
