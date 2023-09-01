@@ -5,8 +5,10 @@ Welcome to Pathfinding Visualizer! I built this application because I was fascin
 ## Algorithms Implemented Are: 
 
 This application supports the following algorithms: 
+
+**Dijkstra's Algorithm** (weighted): 
 >
->**Dijkstra's Algorithm** (weighted): the father of pathfinding algorithms; guarantees the shortest path
+>The father of pathfinding algorithms; guarantees the shortest path
 >
 **A* Search** (weighted): arguably the best pathfinding algorithm; uses heuristics to guarantee the shortest path much faster than Dijkstra's Algorithm
 
