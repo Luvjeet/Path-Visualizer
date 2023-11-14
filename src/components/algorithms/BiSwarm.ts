@@ -7,7 +7,7 @@ export function biSwarm(
     board: DefaultNode[][],
     source: node,
     target: node,
-): DijkstraNode[] {
+): { path: DijkstraNode[]; reverse: boolean } {
     const grid: DijkstraNode[][] = [];
     const path: DijkstraNode[] = [];
     for (let i = 0; i < board.length; i++) {
@@ -44,10 +44,8 @@ export function biSwarm(
         if (
             !currStartNode ||
             currStartNode.isWall ||
-            currStartNode.isVisited ||
             !currEndNode ||
-            currEndNode.isWall ||
-            currEndNode.isVisited
+            currEndNode.isWall
         ) {
             continue;
         }
@@ -56,7 +54,7 @@ export function biSwarm(
             currStartNode.distance === Infinity ||
             currEndNode.distance === Infinity
         ) {
-            return path;
+            return { path: path, reverse: false };
         }
 
         currStartNode.isVisited = true;
@@ -82,10 +80,10 @@ export function biSwarm(
             if (checkIfMet(endNodePQ, nbr)) {
                 console.log(currEndNeighbours);
                 path.push(currEndNode);
-                path.push(currStartNode);
                 path.push(nbr);
+                path.push(currStartNode);
                 console.log("Idhar dhek lund", currStartNode, currEndNode, nbr);
-                return path;
+                return { path: path, reverse: true };
             }
         }
         for (const nbr of currEndNeighbours) {
@@ -102,12 +100,12 @@ export function biSwarm(
                 path.push(nbr);
                 path.push(currEndNode);
                 console.log(nbr, currStartNode, currEndNode);
-                return path;
+                return { path: path, reverse: false };
             }
         }
     }
 
-    return path;
+    return { path: path, reverse: false };
 }
 
 function swarmHeuristics(x: DijkstraNode, y: DijkstraNode) {
@@ -147,4 +145,7 @@ function checkIfMet(arr: DijkstraNode[], node: DijkstraNode): boolean {
         if (arr[i].row === node.row && arr[i].col === node.col) return true;
     }
     return false;
+    // return arr.some(
+    //     (item, _idx) => item.row === node.row && item.col === node.col,
+    // );
 }

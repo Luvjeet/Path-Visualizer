@@ -108,7 +108,7 @@ function Visualize({ board, algo }: { board: BoardType; algo: string }) {
     }
 
     function visualize_biswarm() {
-        const path: DijkstraNode[] = biSwarm(
+        const { path, reverse } = biSwarm(
             board as DefaultNode[][],
             source,
             target,
@@ -116,11 +116,20 @@ function Visualize({ board, algo }: { board: BoardType; algo: string }) {
         const shortestPath1 = getShortestPath(
             path[path.length - 1],
         ) as DijkstraNode[];
-        const shortestPath2 = getShortestPath(path[path.length - 2]);
-        animate(path, [
-            ...shortestPath2,
-            ...shortestPath1.reverse(),
-        ] as DijkstraNode[]);
+        const shortestPath2 = getShortestPath(
+            path[path.length - 2],
+        ) as DijkstraNode[];
+        console.log(shortestPath1, shortestPath2);
+        if (
+            shortestPath1[0].col - 1 !==
+            shortestPath2[shortestPath2.length - 1].col
+        ) {
+            return alert("Target not found!");
+        }
+        const shortestPathToVisualize = reverse
+            ? [...shortestPath1, ...shortestPath2.reverse()]
+            : [...shortestPath2, ...shortestPath1.reverse()];
+        animateBiSwarm(path, shortestPathToVisualize as DijkstraNode[]);
     }
     function animate(
         path: DFSNode[] | DijkstraNode[] | BFSNode[] | BFSGreedy[],
@@ -128,7 +137,36 @@ function Visualize({ board, algo }: { board: BoardType; algo: string }) {
     ) {
         for (let i = 0; i < path.length - 1; i++) {
             if (i === path.length - 2) {
-                //animate pat
+                //animate path
+                setTimeout(() => {
+                    for (let i = 0; i < shortestPath.length; i++) {
+                        setTimeout(() => {
+                            let node = shortestPath[i];
+                            const elem = document.getElementById(
+                                `${node.row}-${node.col}`,
+                            );
+                            elem?.classList.replace("visited", "path");
+                        }, i * 15);
+                    }
+                }, i * 15);
+            } else {
+                setTimeout(() => {
+                    let node = path[i];
+                    const elem = document.getElementById(
+                        `${node.row}-${node.col}`,
+                    );
+                    elem?.classList.replace("node", "visited");
+                }, i * 15);
+            }
+        }
+    }
+    function animateBiSwarm(
+        path: DFSNode[] | DijkstraNode[] | BFSNode[] | BFSGreedy[],
+        shortestPath: DFSNode[] | DijkstraNode[] | BFSNode[] | BFSGreedy[],
+    ) {
+        for (let i = 0; i < path.length; i++) {
+            if (i === path.length - 1) {
+                //animate path
                 setTimeout(() => {
                     for (let i = 0; i < shortestPath.length; i++) {
                         setTimeout(() => {

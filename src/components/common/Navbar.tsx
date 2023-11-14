@@ -33,7 +33,7 @@ function Navbar() {
                                 "Astar",
                                 "Greedy Best-First Search",
                                 "Swarm",
-                                // "Bi-Directional Swarm",
+                                "Bi-Directional Swarm",
                             ]}
                             algo={algo}
                             setAlgo={setAlgo}
